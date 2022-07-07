@@ -21,8 +21,11 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts to Container'
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy Azure App Service'
   inputs:
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'CICD-Training-Service-Connection'
+    appType: 'webAppLinux'
+    WebAppName: 'my-app-001'
+    packageForLinux: '$(Build.SourcesDirectory)/target/Stateful-Tracker-1.0.0-SNAPSHOT.war'
